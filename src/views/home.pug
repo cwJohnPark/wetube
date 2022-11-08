@@ -2,9 +2,7 @@ extends base
 include mixins/video
 
 block content 
-  h2 Welcome here you will see trending videos.
-  ul 
-    each video in videos 
-      +video(video)
-    else 
-      li Sorry Nothing Found
+  each video in videos 
+    +video(video)
+  else 
+    li Sorry Nothing Found

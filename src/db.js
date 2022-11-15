@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const url = `mongodb://localhost:27017/wetube`;
-
-mongoose.connect(url);
+mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 

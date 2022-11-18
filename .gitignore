@@ -131,3 +131,7 @@ dist
 .pnp.*
 
 .env
+
+/uploads
+
+/assets

@@ -2,7 +2,14 @@ extend ../base
 include ../mixins/video
 
 block content
-  each video in user.videos
-    +video(video)
-  else 
-    li User has No Video
+  div.profile__data
+    if user.avatarUrl 
+      img(src=user.avatarUrl).avatar
+    else 
+      img(src=`https://eu.ui-avatars.com/api/?name=${loggedInUser.name}&size=250`).avatar
+    h3=user.name
+  div.video-grid
+    each video in user.videos
+      +video(video)
+    else
+      span.empty__message No videos found

@@ -5,8 +5,12 @@ block content
   h3 Search Video
   if errorMessage
     span=errorMessage
-  form(method="GET")
+  form(method="GET").search__form
     input(name="keyword", placeholder="Search by title", required, type="text", maxlength=80)
-    input(value="Search", type="submit")
-  each video in videos 
-    +video(video)
+    button
+      i.fas.fa-search
+  div.video-grid
+    each video in videos 
+      +video(video)
+    else
+      span.empty__message No videos found

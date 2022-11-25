@@ -17,9 +17,9 @@ header
                 li
                     a(href=`/users/${loggedInUser._id}`)
                         if loggedInUser.avatarUrl === ""
-                            img(src=`https://eu.ui-avatars.com/api/?name=${loggedInUser.name}&size=250`)
+                            img(src=`https://eu.ui-avatars.com/api/?name=${loggedInUser.name}&size=250`, crossorigin)
                         else
-                            img.header__avatar(src=loggedInUser.avatarUrl)
+                            img.header__avatar(src=loggedInUser.avatarUrl, crossorigin)
             else
                 li
                     a(href="/login")  Login                        

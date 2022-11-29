@@ -1,3 +1,4 @@
+include mixins/message
 html(lang="en")
   head
     meta(charset="UTF-8")
@@ -8,6 +9,12 @@ html(lang="en")
     link(rel="shortcut icon", type="image/png", href="/static/favicon.ico")
 
   body 
+    if messages.error
+      +message("error", messages.error)
+    if messages.info
+      +message("info", messages.info)
+    if messages.success
+      +message("success", messages.success)
     include partials/header
     main
       block content

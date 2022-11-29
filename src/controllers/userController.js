@@ -9,6 +9,7 @@ export const postJoin = async (req, res) => {
   const { name, username, email, password, password2, location } = req.body;
 
   if (password !== password2) {
+    req.flash("error", "Password not match");
     return res.status(400).render("join", {
       pageTitle,
       errorMessage: "Password confirmation does not match!",
@@ -18,6 +19,7 @@ export const postJoin = async (req, res) => {
   const exists = await User.exists({ $or: [{ username }, { email }] });
 
   if (exists) {
+    req.flash("error", "Username/Email already exists!");
     return res.status(400).render("join", {
       pageTitle,
       errorMessage: "The username/email is already exists!",
@@ -34,7 +36,7 @@ export const postJoin = async (req, res) => {
     });
     return res.redirect("/login");
   } catch (error) {
-    console.error("error", error._message);
+    req.flash("error", error._message);
     return res.render(500).render("join", {
       pageTitle,
       errorMessage: error._message,
@@ -100,7 +102,10 @@ export const postEdit = async (req, res) => {
 export const remove = (req, res) => res.send("Delete User");
 
 export const logout = (req, res) => {
-  req.session.destroy();
+  req.session.user = null;
+  res.locals.loggedInUser = null;
+  req.session.loggedIn = false;
+  req.flash("info", "You are Logged out");
   return res.redirect("/");
 };
 
@@ -213,6 +218,7 @@ export const postChangePassword = async (req, res) => {
   const { oldPassword, newPassword, newPasswordConfirmation } = req.body;
 
   if (newPassword !== newPasswordConfirmation) {
+    req.flash("info", "Cannot change Password");
     return res.status(400).render("users/change-password", {
       pageTitle: "Change Password",
       errorMessage: "Password does not match!",
@@ -220,6 +226,7 @@ export const postChangePassword = async (req, res) => {
   }
   const ok = await bcrypt.compare(oldPassword, password);
   if (!ok) {
+    req.flash("info", "Cannot change Password");
     return res.status(400).render("users/change-password", {
       pageTitle: "Change Password",
       errorMessage: "Current password is incorrect",
@@ -230,5 +237,6 @@ export const postChangePassword = async (req, res) => {
   await user.save();
   req.session.user.password = user.password;
 
+  req.flash("info", "Password updated");
   return res.redirect("/users/logout");
 };

@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use("/static", express.static("assets"));
 app.use(
   session({
